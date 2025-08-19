@@ -12,14 +12,13 @@ def run_login():
             print(f"配置文件 {CONFIG_FILE} 不存在，已跳过登录。")
             return
 
-        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+        # *** 核心修正：将 'utf-8' 修改为 'utf-8-sig' 来处理 BOM ***
+        with open(CONFIG_FILE, 'r', encoding='utf-8-sig') as f:
             config = json.load(f)
 
         username = config['username']
         password = config['password']
-
-        # 从配置中读取运营商标签，如果不存在，则默认为 '巢湖学院'
-        operator_label = config.get('operator_label', '巢湖学院')
+        operator_label = config.get('operator_label', '中国广电')
 
     except Exception as e:
         print(f"读取配置文件时发生错误: {e}")
@@ -32,15 +31,13 @@ def run_login():
             page = browser.new_page()
             page.goto("http://210.45.92.67/")
 
-            # 检查是否已登录
             try:
                 page.locator("#logout").wait_for(state="visible", timeout=3000)
                 browser.close()
                 return
             except PlaywrightTimeoutError:
-                pass  # 未登录，继续执行
+                pass
 
-            # 执行登录操作
             page.locator("#username").fill(username)
             page.locator("#password").fill(password)
             page.select_option("#domain", label=operator_label)

@@ -1,6 +1,14 @@
 # 配置文件
 config.json
+
 # 打包文件
 dist/
 build/
 *.spec
+
+# xml
+/shelf/
+/workspace.xml
+
+# idea
+.idea/
