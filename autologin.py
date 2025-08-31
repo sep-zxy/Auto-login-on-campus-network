@@ -18,7 +18,7 @@ def run_login():
 
         username = config['username']
         password = config['password']
-        operator_label = config.get('operator_label', '中国广电')
+        operator_label = config.get('operator_label', '巢湖学院')
 
     except Exception as e:
         print(f"读取配置文件时发生错误: {e}")
@@ -61,3 +61,4 @@ def run_login():
 
 if __name__ == "__main__":
     run_login()
+
